@@ -7,4 +7,4 @@ class Book(BaseModel):
     
 
 class BookUpdate(BaseModel):
-    status: str
+    status: Optional[str]

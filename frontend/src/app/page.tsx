@@ -42,6 +42,17 @@ export default function Home() {
     }
   };
 
+  const handleUpdateBookTitle = async (bookId: number, title: string) => {
+    try {
+      await axios.patch(`${process.env.BACKEND_URL}/book-title/${bookId}`, { title: title });
+      fetchBooks();
+      toast.success("Book updated successfully")
+    } catch (error) {
+      toast.error("An error occurred")
+      console.error('Error updating status:', error);
+    }
+  }; 
+
   const handleChangeStatus = async (bookId: number, newStatus: string) => {
     try {
       await axios.patch(`${process.env.BACKEND_URL}/books/${bookId}`, { status: newStatus });
@@ -111,6 +122,7 @@ export default function Home() {
                 key={book.id}
                 book={book} 
                 handleChangeStatus={handleChangeStatus} 
+                handleUpdateBookTitle={handleUpdateBookTitle}
                 handleDelete={handleDelete} 
                 status={'reading'} 
               />
@@ -124,6 +136,7 @@ export default function Home() {
               <Book 
                 key={book.id}
                 book={book} 
+                handleUpdateBookTitle={handleUpdateBookTitle}
                 handleChangeStatus={handleChangeStatus} 
                 handleDelete={handleDelete} 
                 status={'to-read'} 
@@ -138,6 +151,7 @@ export default function Home() {
               <Book 
                 key={book.id}
                 book={book} 
+                handleUpdateBookTitle={handleUpdateBookTitle}
                 handleChangeStatus={handleChangeStatus} 
                 handleDelete={handleDelete} 
                 status={'to-read'} 

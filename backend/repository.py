@@ -42,6 +42,11 @@ class BookRepo:
         self.cursor.execute("UPDATE books SET status=%s WHERE id=%s", (status, bookId))
         self.connection.commit()
         return self.cursor.rowcount > 0
+    
+    def updateBookTitle(self, bookId, title):
+        self.cursor.execute("UPDATE books SET title=%s WHERE id=%s", (title, bookId))
+        self.connection.commit()
+        return self.cursor.rowcount > 0
 
     def deleteBook(self, bookId: int):
         self.cursor.execute("DELETE FROM books WHERE id=%s", (bookId,))

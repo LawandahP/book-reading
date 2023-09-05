@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
 from schema import Book, BookUpdate
 from repository import BookRepo
@@ -45,12 +46,19 @@ def read_book(book_id: int):
         raise HTTPException(status_code=404, detail="Book not found")
     return book
 
+@app.patch("/book-title/{book_id}")
+def update_book_title(book_id: int, updated_book: Book):
+    success = repo.updateBookTitle(book_id, updated_book.title)
+    if not success:
+        raise HTTPException(status_code=404, detail="Book not found")
+    return JSONResponse({"message": "Book updated now"}, status_code=200)
+
 @app.patch("/books/{book_id}")
 def update_book(book_id: int, updated_book: BookUpdate):
     success = repo.updateBook(book_id, updated_book.status)
     if not success:
         raise HTTPException(status_code=404, detail="Book not found")
-    return {"message": "Book updated"}
+    return JSONResponse({"message": "Book updated now"}, status_code=200)
 
 @app.delete("/books/{book_id}")
 def delete_book(book_id: int):
